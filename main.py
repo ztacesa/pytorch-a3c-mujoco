@@ -23,13 +23,13 @@ import pdb
 parser = argparse.ArgumentParser(description='A3C')
 parser.add_argument('--lr', type=float, default=0.0001, metavar='LR',
                     help='learning rate (default: 0.0001)')
-parser.add_argument('--batch_size', type=int, default=128, 
+parser.add_argument('--batch_size', type=int, default=128,
 		    help='required for batch.a3c (default: 128)')
 parser.add_argument('--gamma', type=float, default=0.99, metavar='G',
                     help='discount factor for rewards (default: 0.99)')
 parser.add_argument('--tau', type=float, default=1.00, metavar='T',
                     help='parameter for GAE (default: 1.00)')
-parser.add_argument('--model_name', type=str, default='a3c', 
+parser.add_argument('--model_name', type=str, default='a3c',
 		    help='used to save log file and model (default: a3c)')
 parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
@@ -43,11 +43,11 @@ parser.add_argument('--env-name', default='PongDeterministic-v3', metavar='ENV',
                     help='environment to train on (default: PongDeterministic-v3)')
 parser.add_argument('--no-shared', default=False, metavar='O',
                     help='use an optimizer without shared momentum.')
-parser.add_argument('--display', type=bool, default=False, 
+parser.add_argument('--display', type=bool, default=False,
 		    help='whether to use monitor and render ot not (default:False)')
-parser.add_argument('--save_freq', type=int, default=20, 
+parser.add_argument('--save_freq', type=int, default=20,
 		    help='how many intervals to save teh model (default:20)')
-parser.add_argument('--task', choices=['train', 'eval', 'develop'], default='train', 
+parser.add_argument('--task', choices=['train', 'eval', 'develop'], default='train',
 		    help='if use multi thread to train (default:True)')
 parser.add_argument('--load_ckpt', type=str, default='ckpt/a3c/InvertedPendulum-v1.a3c.0.pkl')
 
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     torch.manual_seed(args.seed)
 
     env = create_atari_env(args.env_name)
-   
+
     shared_model = ActorCritic(
         env.observation_space.shape[0], env.action_space)
 
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     	for p in processes:
             p.join()
     elif args.task == 'eval':
-	shared_model.load_state_dict(torch.load(args.load_ckpt))
-	test(args.num_processes, args, shared_model)
+    	shared_model.load_state_dict(torch.load(args.load_ckpt))
+    	test(args.num_processes, args, shared_model)
     elif args.task == 'develop':
-	train(0, args, shared_model, optimizer)
+    	train(0, args, shared_model, optimizer)
